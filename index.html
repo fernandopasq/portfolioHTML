@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfólio Fernando Pasqualini</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo" id="home-logo">Fernando<span>Pasqualini</span></div>
+          <ul class="nav-links">
+            <li><a href="#home">Início</a></li>
+            <li><a href="#impressao">Impressão 3D</a></li>
+            <li><a href="#design">Design 3D</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+          <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section com Three.js -->
+    <section class="hero" id="home">
+      <div id="canvas-container"></div>
+      <div class="hero-content">
+        <h1>Portfólio 3D</h1>
+        <p>
+          Transformando ideias em realidade através do design e impressão 3D
+        </p>
+        <a href="#impressao" class="btn">Explorar Trabalhos</a>
+        <div class="scroll-indicator" id="scrollIndicator">
+          <span>Role para explorar a cena 3D</span>
+          <i class="fas fa-chevron-down"></i>
+          <!-- A barra de progresso será adicionada via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Impressão 3D Section -->
+    <section id="impressao" class="dark-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Impressão 3D</h2>
+          <p>Projetos físicos criados com tecnologia de impressão 3D em FDM</p>
+        </div>
+
+        <div class="content-blocks">
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #4ecdc4);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-print"
+                  style="font-size: 4rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-cube"></i> Protótipos e Maquetes</h3>
+            <p>
+              Desenvolvimento de protótipos funcionais e de conceito para
+              validação de produtos e ideias.
+            </p>
+            <a href="prototipos-e-maquetes.html" class="btn">Ver Projetos</a>
+          </div>
+
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #ff6b6b);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-puzzle-piece"
+                  style="font-size: 4rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-puzzle-piece"></i> Peças Personalizadas</h3>
+            <p>Criação de peças sob medida para necessidades específicas.</p>
+            <a href="pecas-personalizadas.html" class="btn">Ver Projetos</a>
+          </div>
+
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #9b59b6);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i class="fas fa-gem" style="font-size: 4rem; color: white"></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-gem"></i> Figuras Artísticas</h3>
+            <p>Elaboração de esculturas, ToyArts e peças decorativas.</p>
+            <a href="figuras-artisticas.html" class="btn">Ver Projetos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Design 3D Section -->
+    <section id="design" class="dark-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Design 3D</h2>
+          <p>
+            Criação digital em três dimensões para diversos fins e aplicações
+          </p>
+        </div>
+
+        <div class="content-blocks">
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #3498db);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-cube"
+                  style="font-size: 4rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-cubes"></i> Modelagem 3D</h3>
+            <p>
+              Criação de modelos tridimensionais para jogos, animações,
+              simuladores e visualizações arquitetônicas.
+            </p>
+
+            <div class="design-subcategories">
+              <div class="design-subcategory">
+                <i class="fas fa-user"></i>
+                <h4>Personagens</h4>
+                <p>Modelagem e Rigging pronto para animação</p>
+              </div>
+              <div class="design-subcategory">
+                <i class="fas fa-dice-d20"></i>
+                <h4>Objetos</h4>
+                <p>Modelagem poligonal e NURBs</p>
+              </div>
+            </div>
+
+            <a href="modelagem-3d.html" class="btn">Ver Projetos</a>
+          </div>
+
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #e74c3c);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-paint-brush"
+                  style="font-size: 4rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-paint-roller"></i> Texturização</h3>
+            <p>
+              Criação de materiais e texturas para dar vida e realismo aos
+              modelos 3D com metodologia PBR.
+            </p>
+
+            <div class="design-subcategories">
+              <div class="design-subcategory">
+                <i class="fas fa-image"></i>
+                <h4>Materiais PBR</h4>
+                <p>Baseados na física com mapas de texturas</p>
+              </div>
+              <div class="design-subcategory">
+                <i class="fas fa-tint"></i>
+                <h4>Materiais Procedurais</h4>
+                <p>Shaders baseados em nodes</p>
+              </div>
+            </div>
+
+            <a href="texturizacao.html" class="btn">Ver Projetos</a>
+          </div>
+
+          <div class="content-block">
+            <div class="content-image">
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, #2a2b3d, #f39c12);
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="fas fa-camera"
+                  style="font-size: 4rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h3><i class="fas fa-images"></i> Renderização</h3>
+            <p>
+              Produção de imagens e animações de alta qualidade com iluminação
+              de efeitos realistas.
+            </p>
+
+            <div class="design-subcategories">
+              <div class="design-subcategory">
+                <i class="fas fa-building"></i>
+                <h4>Archiviz</h4>
+                <p>Materiais gráficos de Arquitetura</p>
+              </div>
+              <div class="design-subcategory">
+                <i class="fas fa-film"></i>
+                <h4>Animação</h4>
+                <p>Sequências animadas e simulação</p>
+              </div>
+            </div>
+
+            <a href="renderizacao.html" class="btn">Ver Projetos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contato">
+      <div class="container">
+        <div class="footer-content">
+          <h3>Entre em Contato</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fab fa-linkedin"></i>
+              <a
+                href="https://linkedin.com/in/fernando-pasqualini/"
+                target="_blank"
+                >linkedin.com/in/fernando-pasqualini/</a
+              >
+            </div>
+            <div class="contact-item">
+              <i class="fab fa-instagram"></i>
+              <a href="https://instagram.com/f_pasq" target="_blank"
+                >instagram.com/f_pasq</a
+              >
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:fernando_pasqualini@hotmail.com"
+                >fernando_pasqualini@hotmail.com</a
+              >
+            </div>
+          </div>
+          <p class="copyright">
+            © 2025 Fernando Pasqualini. Todos os direitos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

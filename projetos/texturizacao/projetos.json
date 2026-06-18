@@ -1,0 +1,12 @@
+{
+  "tx01": {
+    "title": "Textura01",
+    "description": "descrição da textura 01",
+    "categories": ["texturizacao"],
+    "images": [
+      "projetos/texturizacao/Pastilhas_Difuse.png",
+      "projetos/texturizacao/Pastilhas_Normal.png",
+      "projetos/texturizacao/Pastilhas_Roughness.png"
+    ]
+  }
+}

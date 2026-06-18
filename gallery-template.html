@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeria - Portfólio Fernando Pasqualini</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/gallery.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo" id="home-logo">Fernando<span>Pasqualini</span></div>
+          <ul class="nav-links">
+            <li><a href="index.html#home">Início</a></li>
+            <li><a href="index.html#impressao">Impressão 3D</a></li>
+            <li><a href="index.html#design">Design 3D</a></li>
+            <li><a href="index.html#contato">Contato</a></li>
+          </ul>
+          <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Página de Galeria -->
+    <main>
+      <!-- Hero Breadcrumb Section -->
+      <section class="gallery-hero">
+        <div class="gallery-hero-content">
+          <h1 id="gallery-title">Título da Galeria</h1>
+          <p id="gallery-description">Descrição da galeria</p>
+          <div class="breadcrumb">
+            <a href="index.html">Início</a>
+            <span>/</span>
+            <span id="breadcrumb-title">Categoria</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <!-- Galeria -->
+        <section class="gallery-wrapper">
+          <div class="gallery" id="gallery">
+            <!-- Itens de Galeria - Template para cada item -->
+            <!-- Copie e adapte este bloco para cada imagem/projeto -->
+
+            <div class="gallery-item design modelagem" data-category="design">
+              <div class="gallery-item-image">
+                <img
+                  src="images/design3d/modelagem/projeto-1.jpg"
+                  alt="Projeto 1"
+                />
+                <div class="gallery-item-overlay">
+                  <div class="overlay-content">
+                    <h3>Projeto de Modelagem 1</h3>
+                    <p>Descrição do projeto</p>
+                  </div>
+                </div>
+              </div>
+              <a href="project.html?id=project-1" class="project-link">
+                <i class="fas fa-expand"></i>
+              </a>
+            </div>
+
+            <div class="gallery-item renderizacao" data-category="render">
+              <div class="gallery-item-image">
+                <img
+                  src="images/design3d/renderizacao/projeto-2.jpg"
+                  alt="Projeto 2"
+                />
+                <div class="gallery-item-overlay">
+                  <div class="overlay-content">
+                    <h3>Renderização 1</h3>
+                    <p>Descrição do projeto</p>
+                  </div>
+                </div>
+              </div>
+              <a href="project.html?id=project-2" class="project-link">
+                <i class="fas fa-expand"></i>
+              </a>
+            </div>
+
+            <div class="gallery-item texturizacao" data-category="texture">
+              <div class="gallery-item-image">
+                <img
+                  src="images/design3d/texturizacao/projeto-3.jpg"
+                  alt="Projeto 3"
+                />
+                <div class="gallery-item-overlay">
+                  <div class="overlay-content">
+                    <h3>Texturização 1</h3>
+                    <p>Descrição do projeto</p>
+                  </div>
+                </div>
+              </div>
+              <a href="project.html?id=project-3" class="project-link">
+                <i class="fas fa-expand"></i>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox">
+          <span class="lightbox-close">&times;</span>
+          <img class="lightbox-content" id="lightbox-img" src="" alt="" />
+          <div class="lightbox-caption" id="lightbox-caption"></div>
+          <button class="lightbox-nav lightbox-prev" id="lightbox-prev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="lightbox-nav lightbox-next" id="lightbox-next">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- estatísticas removidas -->
+      </div>
+    </main>
+
+    <!-- Rodapé -->
+    <!-- Footer -->
+    <footer id="contato">
+      <div class="container">
+        <div class="footer-content">
+          <h3>Entre em Contato</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fab fa-linkedin"></i>
+              <a
+                href="https://linkedin.com/in/fernando-pasqualini/"
+                target="_blank"
+                >linkedin.com/in/fernando-pasqualini/</a
+              >
+            </div>
+            <div class="contact-item">
+              <i class="fab fa-instagram"></i>
+              <a href="https://instagram.com/f_pasq" target="_blank"
+                >instagram.com/f_pasq</a
+              >
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <a href="mailto:fernando_pasqualini@hotmail.com"
+                >fernando_pasqualini@hotmail.com</a
+              >
+            </div>
+          </div>
+          <p class="copyright">
+            © 2025 Fernando Pasqualini. Todos os direitos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/gallery.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const params = new URLSearchParams(window.location.search);
+        const cat = params.get("cat");
+        if (!cat) return;
+        const title = cat.charAt(0).toUpperCase() + cat.slice(1);
+        const titleEl = document.getElementById("gallery-title");
+        const bc = document.getElementById("breadcrumb-title");
+        if (titleEl) titleEl.textContent = title;
+        if (bc) bc.textContent = title;
+        const filter = "." + cat;
+        if (typeof filterGalleryItems === "function") {
+          filterGalleryItems(filter);
+        } else {
+          // fallback: hide non-matching items
+          document.querySelectorAll(".gallery-item").forEach((it) => {
+            if (!it.classList.contains(cat)) it.classList.add("hidden");
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
