@@ -29,8 +29,6 @@ const CATEGORY_MAP = {
 document.addEventListener("DOMContentLoaded", async function () {
   await tryLoadProjetos();
   initGallery();
-  setupMobileMenu();
-  setupLogoClick();
 });
 
 function getCurrentCategorySlug() {
