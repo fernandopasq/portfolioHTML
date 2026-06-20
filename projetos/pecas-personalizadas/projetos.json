@@ -1,16 +1,5 @@
 {
   "pp01": {
-    "title": "Residencia Souza",
-    "description": "Renders de projeto residencial no interior de Jundiaí",
-    "categories": ["pecas-personalizadas"],
-    "images": [
-      "projetos/pecas-personalizadas/Enscape_2022-05-27-10-35-47.png",
-      "projetos/pecas-personalizadas/Enscape_2022-05-27-11-38-11.png",
-      "projetos/pecas-personalizadas/Enscape_2022-05-27-11-40-14.png",
-      "projetos/pecas-personalizadas/renderx.jpg"
-    ]
-  },
-  "pp02": {
     "title": "Trofeu Mario Kart",
     "description": "Trofeu Desenvolvido para competição de Mario Kart",
     "categories": ["pecas-personalizadas"],
