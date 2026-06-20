@@ -1,6 +1,6 @@
 /* project.js
    Carrega dados do projeto via query string e renderiza galeria do projeto.
-   Suporta: imagens normais + itens 3D (com badge e modal viewer)
+   Suporta: imagens normais + itens 3D com thumbnail própria (modelThumbnail)
 */
 
 const PROJECT_DATA = {
@@ -51,17 +51,36 @@ const CATEGORY_MAP = {
 let projectImages = [];
 let currentIndex = 0;
 let currentModelPath = null;
+let currentModelThumbnail = null;
 
 // Referências do viewer 3D ativo (escopo do módulo, não no DOM)
 let activeViewer = null;
 let activeEscHandler = null;
 let activeResizeHandler = null;
 
-// Placeholder SVG inline
+// Placeholders
 const PROJECT_PLACEHOLDER = `data:image/svg+xml;utf8,${encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'>
     <rect width='100%' height='100%' fill='#222' />
     <text x='50%' y='50%' fill='#888' font-family='Arial, Helvetica, sans-serif' font-size='36' dominant-baseline='middle' text-anchor='middle'>Sem imagem</text>
+  </svg>`,
+)} `;
+
+const MODEL_THUMBNAIL_PLACEHOLDER = `data:image/svg+xml;utf8,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'>
+    <defs>
+      <linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'>
+        <stop offset='0%' stop-color='#1a1a2e'/>
+        <stop offset='100%' stop-color='#16213e'/>
+      </linearGradient>
+    </defs>
+    <rect width='100%' height='100%' fill='url(#bg)'/>
+    <g transform='translate(400,300)'>
+      <rect x='-60' y='-60' width='120' height='120' rx='12' fill='none' stroke='#4ecdc4' stroke-width='3' opacity='0.8'/>
+      <rect x='-40' y='-40' width='80' height='80' rx='8' fill='none' stroke='#4ecdc4' stroke-width='2' opacity='0.5'/>
+      <circle cx='0' cy='0' r='15' fill='#4ecdc4' opacity='0.9'/>
+      <text x='0' y='90' fill='#4ecdc4' font-family='Arial, Helvetica, sans-serif' font-size='18' font-weight='bold' text-anchor='middle'>Modelo 3D</text>
+    </g>
   </svg>`,
 )} `;
 
@@ -130,10 +149,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     projectImages = [PROJECT_PLACEHOLDER];
   }
 
-  // Guardar path do modelo 3D se existir
+  // Guardar path do modelo 3D e sua thumbnail se existirem
   currentModelPath = data.model || null;
+  currentModelThumbnail = data.modelThumbnail || null;
 
-  renderMosaic(projectImages, currentModelPath);
+  renderMosaic(projectImages, currentModelPath, currentModelThumbnail);
   setupLightbox();
   setupModel3DEvents();
 });
@@ -180,7 +200,7 @@ async function loadProjectDataFromCategory(id, category) {
   return null;
 }
 
-function renderMosaic(images, modelPath) {
+function renderMosaic(images, modelPath, modelThumbnail) {
   const gallery = document.getElementById("project-gallery");
   if (!gallery) return;
   gallery.innerHTML = "";
@@ -205,12 +225,14 @@ function renderMosaic(images, modelPath) {
 
   // Renderizar item 3D se existir modelo
   if (modelPath) {
+    const thumbSrc = modelThumbnail || MODEL_THUMBNAIL_PLACEHOLDER;
+
     const modelItem = document.createElement("div");
     modelItem.className = "gallery-item model-3d";
     modelItem.dataset.model = modelPath;
     modelItem.innerHTML = `
       <div class="gallery-item-image">
-        <img src="${images[0] || PROJECT_PLACEHOLDER}" alt="Modelo 3D" loading="lazy" />
+        <img src="${thumbSrc}" alt="Visualizar modelo 3D" loading="lazy" />
         <div class="gallery-item-overlay">
           <div class="overlay-content">
             <h3>Modelo 3D</h3>
@@ -323,7 +345,6 @@ async function loadThreeJSAndOpen(modelPath) {
     for (const src of scripts) {
       await loadScript(src);
     }
-    // Aguarda um tick para garantir que os scripts foram parseados
     await new Promise((r) => setTimeout(r, 100));
     hideLoadingOverlay();
     createViewerModal(modelPath);
@@ -349,7 +370,6 @@ function loadScript(src) {
 }
 
 function createViewerModal(modelPath) {
-  // Fechar modal anterior se existir
   closeModel3DModal();
 
   const modal = document.createElement("div");
@@ -382,7 +402,6 @@ function createViewerModal(modelPath) {
   document.body.appendChild(modal);
   document.body.style.overflow = "hidden";
 
-  // Event listeners — AGORA sim, depois do modal estar no DOM
   const closeBtn = document.getElementById("model3d-close-btn");
   const backdrop = modal.querySelector(".model3d-modal-backdrop");
 
@@ -393,13 +412,11 @@ function createViewerModal(modelPath) {
     backdrop.addEventListener("click", closeModel3DModal);
   }
 
-  // Tecla ESC — guardar referência na variável do módulo
   activeEscHandler = (e) => {
     if (e.key === "Escape") closeModel3DModal();
   };
   document.addEventListener("keydown", activeEscHandler);
 
-  // Inicializar viewer
   initBasicViewer(modelPath);
 }
 
@@ -448,7 +465,6 @@ function initBasicViewer(modelPath) {
   let animationId = null;
   let isDestroyed = false;
 
-  // Guardar referências no objeto activeViewer (escopo do módulo)
   activeViewer = {
     renderer,
     controls,
@@ -494,7 +510,6 @@ function initBasicViewer(modelPath) {
     },
   );
 
-  // Botões
   const resetBtn = document.getElementById("viewer-reset");
   const rotateBtn = document.getElementById("viewer-rotate");
 
@@ -519,7 +534,6 @@ function initBasicViewer(modelPath) {
     });
   }
 
-  // Resize — guardar referência na variável do módulo
   activeResizeHandler = () => {
     if (isDestroyed || !container || !camera || !renderer) return;
     const w = container.clientWidth;
@@ -531,7 +545,6 @@ function initBasicViewer(modelPath) {
   };
   window.addEventListener("resize", activeResizeHandler);
 
-  // Animação
   function animate() {
     if (isDestroyed) return;
     if (!document.getElementById("viewer-canvas-container")) return;
@@ -549,31 +562,26 @@ function initBasicViewer(modelPath) {
 function closeModel3DModal() {
   const modal = document.getElementById("model3d-modal");
   if (!modal) {
-    // Mesmo sem modal, garantir que tudo está limpo
     cleanupViewer();
     return;
   }
 
   console.log("Fechando modal 3D");
 
-  // Remover listener de ESC usando a referência do módulo
   if (activeEscHandler) {
     document.removeEventListener("keydown", activeEscHandler);
     activeEscHandler = null;
   }
 
-  // Remover listener de resize usando a referência do módulo
   if (activeResizeHandler) {
     window.removeEventListener("resize", activeResizeHandler);
     activeResizeHandler = null;
   }
 
-  // Cancelar animação
   if (activeViewer && activeViewer.animationId) {
     cancelAnimationFrame(activeViewer.animationId);
   }
 
-  // Destruir renderer
   if (activeViewer && activeViewer.renderer) {
     activeViewer.renderer.dispose();
     const canvas = activeViewer.renderer.domElement;
@@ -582,7 +590,6 @@ function closeModel3DModal() {
     }
   }
 
-  // Destruir controls
   if (activeViewer && activeViewer.controls) {
     activeViewer.controls.dispose();
   }
@@ -592,7 +599,6 @@ function closeModel3DModal() {
   document.body.style.overflow = "auto";
 }
 
-// Função auxiliar para limpar recursos mesmo sem modal
 function cleanupViewer() {
   if (activeEscHandler) {
     document.removeEventListener("keydown", activeEscHandler);

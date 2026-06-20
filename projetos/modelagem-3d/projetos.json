@@ -4,6 +4,7 @@
     "description": "Auto retrato como duplicante",
     "categories": ["modelagem-3d"],
     "images": ["projetos/modelagem-3d/oni-fernando.png"],
-    "model": "projetos/modelagem-3d/oni.glb"
+    "model": "projetos/modelagem-3d/oni.glb",
+    "modelThumbnail": "projetos/modelagem-3d/oni-thumb.png"
   }
 }
