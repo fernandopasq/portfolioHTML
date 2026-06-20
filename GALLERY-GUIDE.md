@@ -1,430 +1,395 @@
-# 📸 Modelo de Galeria - Guia de Uso
+# 📸 Guia de Uso — Galeria e Projetos 3D
 
 ## Visão Geral
 
-Este é um modelo profissional e totalmente responsivo para criar páginas de galeria. Serve como base para todas as páginas internas do portfólio (Texturização, Modelagem 3D, Renderização, etc).
+Este guia descreve como adicionar projetos ao portfólio, configurar galerias e usar o visualizador 3D. O sistema é baseado em **JSON** para dados e **arquivos estáticos** (imagens/modelos) organizados por categoria.
 
-## 📁 Arquivos Criados
+---
 
-- **gallery-template.html** - Template HTML base
-- **css/gallery.css** - Estilos da galeria
-- **js/gallery.js** - Funcionalidades JavaScript
+## 📁 Estrutura de Pastas
 
-## 🚀 Como Usar
-
-### 1. Criar uma Nova Página de Galeria
-
-1. Copie o arquivo `gallery-template.html`
-2. Renomeie para a sua página (ex: `texturizacao.html`, `modelagem-3d.html`)
-3. Customize os dados conforme abaixo
-
-### 2. Customizar a Página
-
-#### 2.1 Via HTML (Método Manual)
-
-Edite os seguintes elementos no HTML:
-
-```html
-<!-- Título e Descrição -->
-<h1 id="gallery-title">Título da Galeria</h1>
-<p id="gallery-description">Descrição da galeria</p>
-<span id="breadcrumb-title">Categoria</span>
-
-<!-- Adicione os itens da galeria aqui -->
-<div class="gallery-item design modelagem" data-category="design">
-  <div class="gallery-item-image">
-    <img src="path/to/image.jpg" alt="Projeto 1" />
-    <div class="gallery-item-overlay">
-      <div class="overlay-content">
-        <h3>Nome do Projeto</h3>
-        <p>Descrição do projeto</p>
-      </div>
-    </div>
-  </div>
-  <a href="#" class="gallery-item-link" data-lightbox="gallery">
-    <i class="fas fa-expand"></i>
-  </a>
-</div>
+```
+📦 portfolio/
+├── 📄 index.html                    # Página inicial (hero 3D)
+├── 📄 prototipos-e-maquetes.html   # Galeria da categoria
+├── 📄 pecas-personalizadas.html    # Galeria da categoria
+├── 📄 figuras-artisticas.html      # Galeria da categoria
+├── 📄 modelagem-3d.html            # Galeria da categoria
+├── 📄 texturizacao.html            # Galeria da categoria
+├── 📄 renderizacao.html            # Galeria da categoria
+├── 📄 project.html                  # Página individual do projeto
+│
+├── 📁 css/
+│   ├── style.css                  # Estilos globais
+│   ├── responsive.css             # Responsividade
+│   ├── gallery.css                # Estilos das galerias
+│   └── 3d-viewer-styles.css       # Estilos do visualizador 3D
+│
+├── 📁 js/
+│   ├── script.js                  # Funções globais (menu, logo, scroll)
+│   ├── index.js                   # Cena 3D do hero (só index.html)
+│   ├── gallery.js                 # Galeria de categorias
+│   ├── project.js                 # Página individual do projeto
+│   └── 3dviewer.js                # Visualizador 3D reutilizável
+│
+├── 📁 projetos/                   # ⬅️ PASTA PRINCIPAL DOS PROJETOS
+│   ├── projetos.json              # JSON raiz (fallback)
+│   │
+│   ├── 📁 prototipos-e-maquetes/
+│   │   ├── projetos.json          # ⬅️ PROJETOS DESTA CATEGORIA
+│   │   ├── foto1.jpg              # Imagens do projeto
+│   │   ├── foto2.jpg
+│   │   └── modelo3d.glb           # Modelo 3D (opcional)
+│   │
+│   ├── 📁 pecas-personalizadas/
+│   │   ├── projetos.json
+│   │   └── ...
+│   │
+│   ├── 📁 figuras-artisticas/
+│   │   ├── projetos.json
+│   │   └── ...
+│   │
+│   ├── 📁 modelagem-3d/
+│   │   ├── projetos.json
+│   │   ├── oni-fernando.png       # Imagem da galeria
+│   │   ├── oni-thumb.png          # Thumbnail do modelo 3D
+│   │   └── oni.glb                # Modelo 3D
+│   │
+│   ├── 📁 texturizacao/
+│   │   ├── projetos.json
+│   │   └── ...
+│   │
+│   └── 📁 renderizacao/
+│       ├── projetos.json
+│       └── ...
+│
+└── 📁 models/
+    └── your-model.glb             # Modelo do hero (index.html)
 ```
 
-#### 2.2 Via JavaScript (Método Dinâmico)
+---
 
-Use o `GalleryAPI` para customizar tudo via JavaScript:
+## 🚀 Como Adicionar um Projeto
 
-```html
-<script>
-  // Customizar título e descrição
-  GalleryAPI.customize({
-    title: "Texturização 3D",
-    description: "Projetos avançados de texturização",
-    breadcrumb: "Texturização",
-    filters: ["modelagem", "renderizacao", "texturizacao"],
-  });
+### Passo 1: Escolher a Categoria
 
-  // Adicionar itens
-  GalleryAPI.addItems([
-    {
-      imageUrl: "images/design3d/texturizacao/projeto1.jpg",
-      title: "Textura Madeira Premium",
-      description: "Textura realista de madeira com detalhas de grain",
-      categories: ["texturizacao", "design"],
-    },
-    {
-      imageUrl: "images/design3d/texturizacao/projeto2.jpg",
-      title: "Material Metalizado",
-      description: "Material metalizado com reflexos avançados",
-      categories: ["texturizacao", "renderizacao"],
-    },
-  ]);
-</script>
+As categorias disponíveis são:
+
+| Categoria             | Slug                    | Descrição                        |
+| --------------------- | ----------------------- | -------------------------------- |
+| Protótipos e Maquetes | `prototipos-e-maquetes` | Protótipos físicos e maquetes    |
+| Peças Personalizadas  | `pecas-personalizadas`  | Peças sob medida                 |
+| Figuras Artísticas    | `figuras-artisticas`    | Esculturas, ToyArts, decorativas |
+| Modelagem 3D          | `modelagem-3d`          | Modelos digitais                 |
+| Texturização          | `texturizacao`          | Materiais e texturas PBR         |
+| Renderização          | `renderizacao`          | Imagens e animações              |
+
+### Passo 2: Criar/Editar o JSON da Categoria
+
+Abra o arquivo `projetos/{categoria}/projetos.json`.
+
+**Exemplo:** `projetos/modelagem-3d/projetos.json`
+
+```json
+{
+  "m3d01": {
+    "title": "Duplicante",
+    "description": "Auto retrato como duplicante",
+    "categories": ["modelagem-3d"],
+    "images": ["projetos/modelagem-3d/oni-fernando.png"],
+    "model": "projetos/modelagem-3d/oni.glb",
+    "modelThumbnail": "projetos/modelagem-3d/oni-thumb.png"
+  }
+}
 ```
 
-### 3. Categorias e Filtros
+### Passo 3: Campos do JSON
 
-#### Categorias Disponíveis
+| Campo            | Obrigatório | Descrição                                                           |
+| ---------------- | ----------- | ------------------------------------------------------------------- |
+| `title`          | ✅          | Título do projeto                                                   |
+| `description`    | ✅          | Descrição curta                                                     |
+| `categories`     | ✅          | Array com a categoria (deve conter o slug)                          |
+| `images`         | ✅          | Array com caminhos das imagens (mínimo 1)                           |
+| `model`          | ❌          | Caminho do arquivo `.glb` (se tiver modelo 3D)                      |
+| `modelThumbnail` | ❌          | Thumbnail específica do modelo 3D (se omitido, usa placeholder SVG) |
 
-- `design` - Projetos de design
-- `modelagem` - Modelagem 3D
-- `renderizacao` - Renderização
-- `texturizacao` - Texturização
+### Passo 4: Colocar os Arquivos na Pasta
 
-#### Criar Filtros Customizados
+Copie as imagens e o modelo 3D (se houver) para a pasta da categoria:
 
-```html
-<!-- Adicione botões de filtro conforme necessário -->
-<button class="filter-btn" data-filter=".sua-categoria">Sua Categoria</button>
+```
+projetos/modelagem-3d/
+├── projetos.json          ← já editado
+├── oni-fernando.png       ← imagem principal (usada na galeria de categoria)
+├── oni-thumb.png          ← thumbnail do modelo 3D (opcional)
+└── oni.glb                ← modelo 3D (opcional)
 ```
 
-## 🎨 Personalizações CSS
+**Regras:**
 
-### Mudar Cores Primárias
+- A **primeira imagem** do array `images` é usada como thumbnail na galeria de categoria
+- Se houver `model`, aparece um item extra na galeria do projeto com badge 🧊 3D
+- Se não houver `modelThumbnail`, gera um placeholder SVG automaticamente
 
-Edite as variáveis CSS em `css/style.css`:
+---
+
+## 🎨 Como Funciona a Galeria de Categoria
+
+### Páginas: `prototipos-e-maquetes.html`, `modelagem-3d.html`, etc.
+
+A galeria de categoria:
+
+1. Lê `projetos/{categoria}/projetos.json`
+2. Para cada projeto, usa a **primeira imagem** como thumbnail
+3. Ao clicar, vai para `project.html?id=ID&cat=CATEGORIA`
+
+**Exemplo de link gerado:**
+
+```
+project.html?id=m3d01&cat=modelagem-3d
+```
+
+---
+
+## 🖼️ Como Funciona a Página do Projeto
+
+### Página: `project.html`
+
+A página do projeto:
+
+1. Lê os parâmetros da URL (`id` e `cat`)
+2. Busca o projeto no JSON da categoria
+3. Renderiza:
+   - Todas as imagens do projeto (clicáveis → lightbox)
+   - Se houver `model`, um item extra com badge 3D (clicável → visualizador 3D)
+
+### Lightbox (imagens)
+
+- Clique em qualquer imagem → abre em tela cheia
+- Navegação: setas ← → ou botões
+- Fechar: ESC, X, ou clicar fora
+
+### Visualizador 3D (modelo)
+
+- Clique no item com badge 🧊 3D → abre modal
+- Controles:
+  - **Arrastar** → rotacionar
+  - **Scroll** → zoom
+  - **Centralizar** → reseta posição
+  - **Auto-rotacionar** → liga/desliga rotação automática
+- Fechar: X, clicar no fundo, ou ESC
+
+---
+
+## 🧊 Visualizador 3D
+
+### Quando usar
+
+O visualizador 3D aparece automaticamente quando um projeto tem o campo `model` no JSON.
+
+### Requisitos
+
+- Arquivo no formato `.glb` (GL Transmission Format)
+- Exportado de Blender, Maya, 3ds Max, etc.
+- Colocado na pasta da categoria
+
+### Thumbnail do Modelo 3D
+
+Você tem duas opções:
+
+**Opção A: Thumbnail customizada (recomendado)**
+
+```json
+{
+  "modelThumbnail": "projetos/modelagem-3d/oni-thumb.png"
+}
+```
+
+**Opção B: Placeholder automático**
+
+```json
+{
+  // Não inclua modelThumbnail
+  // O sistema gera um SVG com ícone de cubo
+}
+```
+
+---
+
+## 📝 Exemplos Completos
+
+### Exemplo 1: Projeto com Imagens Apenas
+
+```json
+{
+  "pem01": {
+    "title": "Maquete Casa Moderna",
+    "description": "Maquete arquitetônica em escala 1:50",
+    "categories": ["prototipos-e-maquetes"],
+    "images": [
+      "projetos/prototipos-e-maquetes/maquete-foto1.jpg",
+      "projetos/prototipos-e-maquetes/maquete-foto2.jpg",
+      "projetos/prototipos-e-maquetes/maquete-foto3.jpg"
+    ]
+  }
+}
+```
+
+### Exemplo 2: Projeto com Imagens + Modelo 3D
+
+```json
+{
+  "m3d01": {
+    "title": "Duplicante",
+    "description": "Auto retrato como duplicante",
+    "categories": ["modelagem-3d"],
+    "images": ["projetos/modelagem-3d/oni-fernando.png"],
+    "model": "projetos/modelagem-3d/oni.glb",
+    "modelThumbnail": "projetos/modelagem-3d/oni-thumb.png"
+  }
+}
+```
+
+### Exemplo 3: Projeto com Múltiplas Imagens + Modelo 3D
+
+```json
+{
+  "pem02": {
+    "title": "Protótipo Engrenagem",
+    "description": "Peça funcional para teste mecânico",
+    "categories": ["prototipos-e-maquetes"],
+    "images": [
+      "projetos/prototipos-e-maquetes/engrenagem-foto1.jpg",
+      "projetos/prototipos-e-maquetes/engrenagem-foto2.jpg",
+      "projetos/prototipos-e-maquetes/engrenagem-foto3.jpg"
+    ],
+    "model": "projetos/prototipos-e-maquetes/engrenagem.glb"
+  }
+}
+```
+
+---
+
+## ⚙️ Arquivos JavaScript — Responsabilidades
+
+| Arquivo       | Onde é usado         | Função                                   |
+| ------------- | -------------------- | ---------------------------------------- |
+| `script.js`   | Todas as páginas     | Menu mobile, logo click, scroll suave    |
+| `index.js`    | `index.html`         | Cena 3D do hero (Three.js)               |
+| `gallery.js`  | Páginas de categoria | Carrega JSON, monta galeria, filtros     |
+| `project.js`  | `project.html`       | Carrega projeto, monta galeria + item 3D |
+| `3dviewer.js` | Qualquer página      | Visualizador 3D reutilizável (API)       |
+
+---
+
+## 🎨 Personalização CSS
+
+### Cores Principais
+
+Edite `css/style.css`:
 
 ```css
 :root {
-  --primary: #4ecdc4; /* Cor principal (atualmente turquesa) */
-  --secondary: #ff6b6b; /* Cor secundária (atualmente vermelho) */
-  --accent: #9b59b6; /* Cor de destaque (atualmente roxo) */
+  --primary: #4ecdc4; /* Turquesa — botões, destaques */
+  --secondary: #ff6b6b; /* Vermelho — hover */
   --dark: #1a1a2e; /* Fundo escuro */
   --light: #f8f9fa; /* Texto claro */
 }
 ```
 
-### Ajustar o Layout
+### Badge 3D
+
+Edite `css/3d-viewer-styles.css`:
 
 ```css
-/* Alterar número de colunas da galeria */
-.gallery {
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  /* Mude 280px para um valor menor (mais itens) ou maior (menos itens) */
-}
-
-/* Ajustar espaçamento */
-.gallery {
-  gap: 2rem; /* Altere para mais ou menos espaço entre itens */
+.model-3d-badge {
+  background: rgba(78, 205, 196, 0.95); /* Cor do badge */
+  color: #1a1a2e; /* Cor do texto */
 }
 ```
-
-### Alterar Cores do Hero
-
-```css
-.gallery-hero {
-  background: linear-gradient(
-    135deg,
-    rgba(78, 205, 196, 0.1),
-    rgba(155, 89, 182, 0.1)
-  );
-  /* Edite as cores RGBA para customizar */
-}
-```
-
-## 📱 Recursos
-
-### ✅ Recursos Inclusos
-
-- ✨ Layout responsivo (mobile, tablet, desktop)
-- 🎯 Filtros por categoria
-- 🖼️ Lightbox para visualização em tela cheia
-- 👁️ Mudança entre visualização em grid e lista
-- ⌨️ Navegação por teclado (Arrow Keys, Escape)
-- 📊 Estatísticas da galeria
-- 🎬 Animações suaves
-- 🚀 Carregamento lazy (suporte para imagens com data-src)
-- 🔗 Navegação integrada com menu principal
-
-### ⌨️ Atalhos do Teclado
-
-| Atalho | Ação            |
-| ------ | --------------- |
-| →      | Próxima imagem  |
-| ←      | Imagem anterior |
-| Esc    | Fechar lightbox |
-
-## 🛠️ API JavaScript
-
-### Métodos Disponíveis
-
-#### `GalleryAPI.customize(config)`
-
-Customiza título, descrição e breadcrumb
-
-```javascript
-GalleryAPI.customize({
-  title: "Novo Título",
-  description: "Nova descrição",
-  breadcrumb: "Nova categoria",
-  filters: ["filtro1", "filtro2"],
-});
-```
-
-#### `GalleryAPI.addItem(itemData)`
-
-Adiciona um único item à galeria
-
-```javascript
-GalleryAPI.addItem({
-  imageUrl: "path/to/image.jpg",
-  title: "Título",
-  description: "Descrição",
-  categories: ["design", "modelagem"],
-});
-```
-
-#### `GalleryAPI.addItems(itemsArray)`
-
-Adiciona múltiplos itens de uma vez
-
-```javascript
-GalleryAPI.addItems([
-    { imageUrl: '...', title: '...', description: '...', categories: [...] },
-    { imageUrl: '...', title: '...', description: '...', categories: [...] }
-]);
-```
-
-#### `GalleryAPI.clear()`
-
-Limpa todos os itens da galeria
-
-```javascript
-GalleryAPI.clear();
-```
-
-#### `GalleryAPI.setViewMode(mode)`
-
-Muda o modo de visualização
-
-```javascript
-GalleryAPI.setViewMode("list"); // Visualização em lista
-GalleryAPI.setViewMode("grid"); // Visualização em grid
-```
-
-## 📝 Exemplo Completo
-
-### Página de Texturização (texturizacao.html)
-
-```html
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Texturização - Portfólio Fernando Pasqualini</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
-    <link rel="stylesheet" href="css/gallery.css" />
-  </head>
-  <body>
-    <!-- Cabeçalho (mesmo do template) -->
-    <header>
-      <div class="container">
-        <nav>
-          <div class="logo" id="home-logo">Fernando<span>Pasqualini</span></div>
-          <ul class="nav-links">
-            <li><a href="index.html#home">Início</a></li>
-            <li><a href="index.html#impressao">Impressão 3D</a></li>
-            <li><a href="index.html#design">Design 3D</a></li>
-            <li><a href="index.html#contato">Contato</a></li>
-          </ul>
-          <div class="menu-btn">
-            <i class="fas fa-bars"></i>
-          </div>
-        </nav>
-      </div>
-    </header>
-
-    <main>
-      <!-- Hero Section -->
-      <section class="gallery-hero">
-        <div class="gallery-hero-content">
-          <h1>Texturização 3D</h1>
-          <p>Criação de texturas realistas e detalhadas para modelos 3D</p>
-          <div class="breadcrumb">
-            <a href="index.html">Início</a>
-            <span>/</span>
-            <span>Texturização</span>
-          </div>
-        </div>
-      </section>
-
-      <div class="container">
-        <!-- Controles e Filtros -->
-        <section class="gallery-controls">
-          <div class="filters-section">
-            <h3><i class="fas fa-filter"></i> Filtros</h3>
-            <div class="filter-group">
-              <button class="filter-btn active" data-filter="*">Todos</button>
-              <button class="filter-btn" data-filter=".realista">
-                Realista
-              </button>
-              <button class="filter-btn" data-filter=".fantasy">Fantasy</button>
-              <button class="filter-btn" data-filter=".abstrato">
-                Abstrato
-              </button>
-            </div>
-          </div>
-          <div class="view-controls">
-            <button class="view-btn active" data-view="grid">
-              <i class="fas fa-th"></i>
-            </button>
-            <button class="view-btn" data-view="list">
-              <i class="fas fa-list"></i>
-            </button>
-          </div>
-        </section>
-
-        <!-- Galeria -->
-        <section class="gallery-wrapper">
-          <div class="gallery" id="gallery">
-            <!-- Itens carregados dinamicamente via JS ou adicionados manualmente -->
-          </div>
-        </section>
-
-        <!-- Lightbox -->
-        <div id="lightbox" class="lightbox">
-          <span class="lightbox-close">&times;</span>
-          <img class="lightbox-content" id="lightbox-img" src="" alt="" />
-          <div class="lightbox-caption" id="lightbox-caption"></div>
-          <button class="lightbox-nav lightbox-prev" id="lightbox-prev">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="lightbox-nav lightbox-next" id="lightbox-next">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-
-        <!-- Estatísticas -->
-        <section class="gallery-stats">
-          <div class="stat-item">
-            <div class="stat-number" id="total-items">0</div>
-            <p>Projetos de Textura</p>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">4K</div>
-            <p>Resolução</p>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">100%</div>
-            <p>Qualidade PBR</p>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- Rodapé (mesmo do template) -->
-    <footer>
-      <!-- ... -->
-    </footer>
-
-    <script src="js/script.js"></script>
-    <script src="js/gallery.js"></script>
-    <script>
-      // Customizar a página
-      GalleryAPI.customize({
-        title: "Texturização 3D",
-        description:
-          "Criação de texturas realistas e detalhadas para modelos 3D",
-        breadcrumb: "Texturização",
-      });
-
-      // Carregar itens da galeria
-      GalleryAPI.addItems([
-        {
-          imageUrl: "images/design3d/texturizacao/madeira.jpg",
-          title: "Textura Madeira Premium",
-          description: "Madeira com grain e imperfições realistas",
-          categories: ["texturizacao", "realista"],
-        },
-        {
-          imageUrl: "images/design3d/texturizacao/metal.jpg",
-          title: "Material Metalizado",
-          description: "Metal com reflexos especulares",
-          categories: ["texturizacao", "realista"],
-        },
-        {
-          imageUrl: "images/design3d/texturizacao/abstract.jpg",
-          title: "Padrão Abstrato",
-          description: "Textura abstrata e geométrica",
-          categories: ["texturizacao", "abstrato"],
-        },
-      ]);
-    </script>
-  </body>
-</html>
-```
-
-## 🎯 Próximos Passos
-
-1. **Adicionar Imagens**: Coloque as imagens dos projetos nas pastas correspondentes em `images/`
-2. **Criar Páginas**: Crie novas páginas (texturizacao.html, modelagem.html, etc) baseadas no template
-3. **Customizar**: Use o API JavaScript ou edite manualmente conforme necessário
-4. **Integrar Links**: Adicione links nos botões "Ver Projetos" da página principal
-5. **Otimizar**: Comprima as imagens para melhor performance
-
-## 📦 Estrutura de Imagens Recomendada
-
-```
-images/
-├── design3d/
-│   ├── modelagem/
-│   │   ├── projeto1.jpg
-│   │   ├── projeto2.jpg
-│   │   └── ...
-│   ├── renderizacao/
-│   │   ├── render1.jpg
-│   │   ├── render2.jpg
-│   │   └── ...
-│   └── texturizacao/
-│       ├── textura1.jpg
-│       ├── textura2.jpg
-│       └── ...
-└── impressao3d/
-    ├── projeto1.jpg
-    ├── projeto2.jpg
-    └── ...
-```
-
-## ⚡ Dicas de Performance
-
-- Comprima as imagens antes de usar
-- Use formatos modernos (WebP)
-- Implemente lazy loading para galerias com muitas imagens
-- Considere usar uma CDN para as imagens
-
-## 🎓 Suporte e Documentação
-
-Se tiver dúvidas na customização, revise os comentários nos arquivos:
-
-- `gallery-template.html` - Estrutura HTML
-- `css/gallery.css` - Estilos e animações
-- `js/gallery.js` - Funções JavaScript e API
 
 ---
 
-**Criado em:** 2024  
-**Versão:** 1.0  
-**Compatibilidade:** Chrome, Firefox, Safari, Edge (versões recentes)
+## 🔧 Dicas e Solução de Problemas
+
+### Cache do Navegador
+
+Se alterar o JSON e não ver mudanças, force o refresh:
+
+- **Desktop:** Ctrl + F5 (Windows) ou Cmd + Shift + R (Mac)
+- **Mobile:** Fechar a aba e reabrir, ou limpar cache
+
+**Prevenção:** Use versionamento nos scripts:
+
+```html
+<script src="js/project.js?v=2"></script>
+```
+
+### Caminhos dos Arquivos
+
+Os caminhos no JSON são relativos à **raiz do site**:
+
+```json
+{
+  "images": [
+    "projetos/modelagem-3d/foto.jpg" // ✅ Correto
+  ],
+  "model": "projetos/modelagem-3d/modelo.glb" // ✅ Correto
+}
+```
+
+Não use `./` ou `../`:
+
+```json
+{
+  "images": [
+    "./foto.jpg"     // ❌ Evite
+    "../foto.jpg"    // ❌ Evite
+  ]
+}
+```
+
+### Modelo 3D não carrega
+
+1. Verifique se o arquivo `.glb` existe no caminho indicado
+2. Abra o DevTools (F12) → aba Console → veja erros
+3. Verifique se o arquivo não está corrompido
+4. Teste o modelo em outro visualizador GLB online
+
+### Item 3D não aparece
+
+1. Verifique se o campo `model` existe no JSON
+2. Verifique se a categoria no JSON corresponde à pasta
+3. Abra o DevTools → Console → veja os logs `[Project]`
+
+---
+
+## 📱 Responsividade
+
+O site é totalmente responsivo:
+
+- **Desktop:** Grid de 3-4 colunas
+- **Tablet:** Grid de 2 colunas
+- **Mobile:** Grid de 1-2 colunas
+
+O menu mobile funciona em todas as páginas com touch e click.
+
+---
+
+## 🎯 Checklist para Novo Projeto
+
+- [ ] Escolher categoria
+- [ ] Criar/editar `projetos/{categoria}/projetos.json`
+- [ ] Adicionar campos: `title`, `description`, `categories`, `images`
+- [ ] Se tiver 3D: adicionar `model` e opcionalmente `modelThumbnail`
+- [ ] Copiar imagens e modelo para a pasta da categoria
+- [ ] Testar no desktop
+- [ ] Testar no mobile
+- [ ] Verificar se não há erros no console
+
+---
+
+**Atualizado em:** 2026  
+**Versão:** 2.0  
+**Compatibilidade:** Chrome, Firefox, Safari, Edge

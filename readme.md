@@ -1,6 +1,6 @@
 # Portfólio Design 3D
 
-Este é um portfólio moderno para um profissional de design 3D, apresentando trabalhos de impressão 3D e design 3D.
+Este é um projeto de portfólio para profissional de design 3D, Com galerias de imagens e Cenas 3D integradas com Three.
 
 ## Estrutura de Pastas
 
@@ -9,18 +9,20 @@ Este é um portfólio moderno para um profissional de design 3D, apresentando tr
   - `style.css` - Estilos principais
   - `responsive.css` - Estilos responsivos
 - `js/` - Arquivos JavaScript
-  - `script.js` - Interatividade e animações
-- `images/` - Imagens do portfólio
-  - `hero/` - Imagem de fundo da seção principal
-  - `impressao3d/` - Imagens para a seção de impressão 3D
-  - `design3d/` - Imagens para a seção de design 3D
+  - `script.js` - Scripts Globais
+  - `3dviwer.js` - Ambiente 3D para reprodução interativa
+  - `gallery.js` - Monta as galerias
+  - `index.js` - Funções gráficas e Hero em 3D do Index
+  - `project.js` - Monta as galerias de um projeto
+- `models/` - Arquivos 3D em GLB
+- `projetos/` - Estrutura de pastas das categorias
+  - `projetos/categoria/projetos.json` - Registro dos projetos
 
 ## Personalização
 
-1. Substitua as imagens de placeholder na pasta `images/` com suas próprias imagens
-2. Atualize o texto no `index.html` com suas informações
-3. Ajuste as cores no arquivo `css/style.css` modificando as variáveis CSS na raiz
-4. Atualize os links de redes sociais no rodapé
+1. Atualize o texto no `index.html` com as ifnormações
+2. Ajuste as cores no arquivo `css/style.css` modificando as variáveis CSS na raiz
+3. Atualize os links de redes sociais no rodapé
 
 ## Recursos
 
