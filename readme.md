@@ -20,7 +20,7 @@ Este é um projeto de portfólio para profissional de design 3D, Com galerias de
 
 ## Personalização
 
-1. Atualize o texto no `index.html` com as ifnormações
+1. Atualize o texto no `index.html` com as iformações
 2. Ajuste as cores no arquivo `css/style.css` modificando as variáveis CSS na raiz
 3. Atualize os links de redes sociais no rodapé
 
