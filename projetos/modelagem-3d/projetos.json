@@ -1,12 +1,9 @@
 {
-  /*
   "m3d01": {
-    "title": "Titulo Exemplo",
-    "description": "Descrição do exemplo",
+    "title": "Duplicante",
+    "description": "Auto retrato como duplicante",
     "categories": ["modelagem-3d"],
-    "images": [
-      "projetos/modelagem-3d/imagem.jpg",
-    ]
+    "images": ["projetos/modelagem-3d/oni-fernando.png"],
+    "model": "projetos/modelagem-3d/oni.glb"
   }
- */
 }
