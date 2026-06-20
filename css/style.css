@@ -53,6 +53,7 @@ nav {
   font-size: 1.8rem;
   font-weight: bold;
   color: var(--light);
+  text-decoration: none;
 }
 
 .logo span {

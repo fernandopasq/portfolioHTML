@@ -4,29 +4,29 @@
 
 const PROJECT_DATA = {
   "project-1": {
-    title: "Projeto de Modelagem 1",
-    description: "Exemplo de modelagem 3D com foco em topologia e detalhes.",
+    title: "Título do Projeto",
+    description: "Descrição do Projeto.",
     images: [
-      "images/design3d/modelagem/projeto-1.jpg",
-      "images/design3d/modelagem/projeto-1.jpg",
-      "images/design3d/modelagem/projeto-1.jpg",
+      "images/placeholders/placeholder.jpg",
+      "images/placeholders/placeholder.jpg",
+      "images/placeholders/placeholder.jpg",
     ],
   },
   "project-2": {
-    title: "Renderização 1",
-    description: "Renderização com iluminação PBR e composição.",
+    title: "Título do Projeto",
+    description: "Descrição do Projeto.",
     images: [
-      "images/design3d/renderizacao/projeto-2.jpg",
-      "images/design3d/renderizacao/projeto-2.jpg",
+      "images/placeholders/placeholder.jpg",
+      "images/placeholders/placeholder.jpg",
     ],
   },
   "project-3": {
-    title: "Texturização 1",
-    description: "Texturização PBR aplicada a modelos de alta resolução.",
+    title: "Título do Projeto",
+    description: "Descrição do Projeto.",
     images: [
-      "images/design3d/texturizacao/projeto-3.jpg",
-      "images/design3d/texturizacao/projeto-3.jpg",
-      "images/design3d/texturizacao/projeto-3.jpg",
+      "images/placeholders/placeholder.jpg",
+      "images/placeholders/placeholder.jpg",
+      "images/placeholders/placeholder.jpg",
     ],
   },
 };
@@ -81,13 +81,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const titleEl = document.getElementById("project-title");
   const descEl = document.getElementById("project-description");
-  const breadcrumbEl = document.getElementById("project-breadcrumb");
+  const breadcrumbEl = document.querySelector(".breadcrumb");
+
   if (titleEl) titleEl.textContent = data.title;
   if (descEl) descEl.textContent = data.description;
-  if (breadcrumbEl)
-    breadcrumbEl.textContent = categoryName
-      ? `${categoryName} / ${data.title}`
-      : data.title;
+
+  if (breadcrumbEl) {
+    const categorySlug =
+      data.categories && data.categories[0]
+        ? data.categories[0]
+        : requestedCategory;
+
+    if (categoryName && categorySlug) {
+      const isImpressao = [
+        "prototipos-e-maquetes",
+        "pecas-personalizadas",
+        "figuras-artisticas",
+      ].includes(categorySlug);
+      const grupoNome = isImpressao ? "Impressão 3D" : "Design 3D";
+      const grupoAnchor = isImpressao ? "#impressao" : "#design";
+
+      // Mantém o Início fixo do HTML e adiciona o resto do caminho limpo
+      breadcrumbEl.innerHTML = `
+        <a href="index.html">Início</a>
+        <span>/</span>
+        <a href="index.html${grupoAnchor}">${grupoNome}</a>
+        <span>/</span>
+        <a href="${categorySlug}.html">${categoryName}</a>
+        <span>/</span>
+        <span>${data.title}</span>
+      `;
+    } else {
+      breadcrumbEl.innerHTML = `
+        <a href="index.html">Início</a>
+        <span>/</span>
+        <span>${data.title}</span>
+      `;
+    }
+  }
 
   projectImages = data.images || [];
   if (!projectImages || !projectImages.length)

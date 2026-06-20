@@ -68,7 +68,14 @@ async function loadProjetosByCategory(category) {
     const res = await fetch(`projetos/${category}/projetos.json`, {
       cache: "no-store",
     });
-    if (!res.ok) return false;
+
+    // Se o arquivo não existir ou der erro, renderiza o aviso de vazio
+    if (!res.ok) {
+      showEmptyCategoryMessage();
+      updatePageCategory(category);
+      return false;
+    }
+
     const data = await res.json();
     const items = Object.keys(data).map((id) => {
       const p = data[id];
@@ -80,13 +87,20 @@ async function loadProjetosByCategory(category) {
         categories: p.categories || [],
       };
     });
+
     if (items.length) {
       loadGalleryItems(items);
       updatePageCategory(category);
       return true;
+    } else {
+      // Se o arquivo JSON existir mas estiver vazio {}
+      showEmptyCategoryMessage();
+      updatePageCategory(category);
+      return false;
     }
   } catch (e) {
     console.warn(`projetos/${category}/projetos.json not loaded:`, e);
+    showEmptyCategoryMessage();
   }
   return false;
 }
@@ -94,7 +108,10 @@ async function loadProjetosByCategory(category) {
 async function loadProjetosByRoot() {
   try {
     const res = await fetch("projetos.json", { cache: "no-store" });
-    if (!res.ok) return false;
+    if (!res.ok) {
+      showEmptyCategoryMessage();
+      return false;
+    }
     const data = await res.json();
     const items = Object.keys(data).map((id) => {
       const p = data[id];
@@ -109,11 +126,33 @@ async function loadProjetosByRoot() {
     if (items.length) {
       loadGalleryItems(items);
       return true;
+    } else {
+      showEmptyCategoryMessage();
+      return false;
     }
   } catch (e) {
     console.warn("projetos.json not loaded:", e);
+    showEmptyCategoryMessage();
   }
   return false;
+}
+
+// NOVA FUNÇÃO AUXILIAR: Renderiza a mensagem de aviso caso não haja projetos
+function showEmptyCategoryMessage() {
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return;
+
+  gallery.innerHTML = `
+    <div class="no-projects-alert" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #888; width: 100%;">
+      <i class="fas fa-folder-open" style="font-size: 3.5rem; margin-bottom: 20px; color: #555;"></i>
+      <h3 style="color: #fff; font-size: 1.6rem; margin-bottom: 10px;">Nenhum projeto por aqui ainda</h3>
+      <p style="font-size: 1rem; color: #aaa;">Estou preparando novos trabalhos nesta categoria. Volte em breve para conferir!</p>
+    </div>
+  `;
+
+  // Atualiza o contador de itens para zero
+  const totalItems = document.getElementById("total-items");
+  if (totalItems) totalItems.textContent = "0";
 }
 
 // ========================================
