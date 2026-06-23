@@ -463,9 +463,6 @@ function addGalleryItem(itemData) {
           </div>
         </div>
       ${imageWrapperEnd}
-      <a href="#" class="gallery-item-link" data-lightbox="gallery">
-        <i class="fas fa-expand"></i>
-      </a>
     </div>
   `;
 
@@ -523,9 +520,6 @@ function loadGalleryItems(itemsArray) {
               </div>
             </div>
           ${projectAnchorEnd}
-          <a href="#" class="gallery-item-link" data-lightbox="gallery">
-            <i class="fas fa-expand"></i>
-          </a>
         </div>`;
     })
     .join("");
